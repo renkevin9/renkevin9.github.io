@@ -1,6 +1,6 @@
 ---
 permalink: /teaching/
-title: "Teaching - Kevin Ren"
+title: "Teaching"
 author_profile: true
 redirect_from: 
   - /teaching/
