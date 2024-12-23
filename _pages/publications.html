@@ -13,11 +13,37 @@ author_profile: true
 
 <!-- New style rendering if publication categories are defined -->
 
-{% for post in site.publications reversed %}
-  <!-- {% if post.type == "year" %} -->
-  {% include archive-single.html %}
-  <!-- {% endif %} -->
-{% endfor %}
+<ul>
+  <li>
+    <p>Rishi Veerapaneni, Arthur Jakobsson, Kevin Ren, Samuel Kim, Jiaoyang Li, Maxim Likhachev.
+      <br/> 
+    Work Smarter Not Harder: Simple Imitation Learning with CS-PIBT Outperforms Large Scale Imitation Learning for MAPF. 
+      <br/> 
+    <a href="https://arxiv.org/abs/2409.14491">[Preprint]</a>.
+  </li>
+  <li>
+      <p>Kevin Ren, Yewon Byun, Bryan Wilder.
+        <br /> 
+      Decision-Focused Evaluation of Worst-Case Distribution Shift.
+       <br /> <strong><font color="#1A5276">UAI-24</font></strong>. 
+       <em>Conference on Uncertainty in Artificial Intelligence</em>. 2024. 
+       <a href="https://arxiv.org/abs/2407.03557v1">[arXiv]</a></p>
+  </li>
+  <li>
+    <p>Rishi Veerapaneni, Qian Wang, Kevin Ren, Arthur Jakobsson, Jiaoyang Li, Maxim Likhachev.
+      <br /> 
+      Improving Learnt Local MAPF Policies with Heuristic Search.
+     <br /> <strong><font color="#1A5276">ICAPS-24</font></strong>. 
+     <em>Thirty-Fourth International Conference on Automated Planning and Scheduling</em>. 2024. 
+     <a href="https://ojs.aaai.org/index.php/ICAPS/article/view/31522">[Link]</a></p>
+  </li>
+</ul>
+
+<!-- {% for post in site.publications reversed %}
+  {% if post.type == "year" %}
+    {% include archive-single.html %}
+  {% endif %}
+{% endfor %} -->
 
 <!-- {% if site.publication_category %}
   {% for category in site.publication_category  %}
