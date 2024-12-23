@@ -21,7 +21,7 @@ repository               : "renkevin9/renkevin9.github.io"
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar           : "profile.png"
+  avatar           : "files/profile.png"
   name             : "Kevin Ren"
   pronouns         : # example: "she/her"  
   bio              : "Current senior studying Statistics and Machine Learning + CS @ CMU! Applying for PhD positions in ML"
