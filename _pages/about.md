@@ -7,7 +7,6 @@ redirect_from:
   - /about.html
 ---
 
-About Me
 ======
 
 I am a current senior at Carnegie Mellon University, studying Statistics and Machine Learning with a minor in Computer Science. My research interests thus far have spanned distribution shifts in decision-focused learning, machine learning approaches for Multi-Agent Pathfinding (MAPF), and (currently) using foundation models to robustify smaller discriminative models. Currently applying for PhD programs in Machine Learning!
