@@ -13,7 +13,7 @@ Beginning in the Fall of 2025, I will be heading to Cornell Tech as a 1st year P
 
 <h1>News</h1>
 
-April 14th: Committed to Cornell Tech :)
+April 14th, 2025: Committed to Cornell Tech :)
 
 <!-- <ul>
   <li></li>
