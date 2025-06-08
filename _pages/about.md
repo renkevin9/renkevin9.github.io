@@ -7,9 +7,7 @@ redirect_from:
   - /about.html
 ---
 
-I am an undergraduate student (graduating senior) at Carnegie Mellon University majoring in Statistics and Machine Learning, with a minor in Computer Science. My research thus far has included work in distribution shifts in decision-focused learning, machine learning-based approaches for the Multi-Agent Pathfinding (MAPF) problem, and (ongoing) zero-shot predictive quality of LLMs on tabular data. For these projects, I have had the pleasure of being advised by Professors <a href="https://bryanwilder.github.io/">Bryan Wilder</a>, <a href="https://www.cs.cmu.edu/~maxim/">Maxim Likhachev</a>, and <a href="https://zstevenwu.com/">Steven Wu</a>.
-
-Beginning in the Fall of 2025, I will be heading to Cornell Tech as a 1st year PhD student, advised primarily by <a href="https://gargnikhil.com/">Nikhil Garg</a>!
+I am a first year PhD Student in the Computer Science Department at Cornell Tech, where I work with <a href="https://gargnikhil.com/">Nikhil Garg</a>, and am broadly interested in the intersections between machine learning and society. As an undergraduate student at CMU, I had the opportunity to research topics including LLMs for tabular data, decision-focused learning, and Multi-Agent Pathfinding, advised by Professors <a href="https://bryanwilder.github.io/">Bryan Wilder</a>, <a href="https://www.cs.cmu.edu/~maxim/">Maxim Likhachev</a>, and <a href="https://zstevenwu.com/">Steven Wu</a>.
 
 <h1>News</h1>
 
