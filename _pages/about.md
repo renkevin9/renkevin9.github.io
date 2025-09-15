@@ -7,7 +7,7 @@ redirect_from:
   - /about.html
 ---
 
-I am a first year PhD Student in the Computer Science Department at Cornell Tech, where I work with <a href="https://gargnikhil.com/">Nikhil Garg</a>, and am broadly interested in the intersections between machine learning and society. As an undergraduate student at CMU, I had the opportunity to research topics including LLMs for tabular data, decision-focused learning, and Multi-Agent Pathfinding, advised by Professors <a href="https://bryanwilder.github.io/">Bryan Wilder</a>, <a href="https://www.cs.cmu.edu/~maxim/">Maxim Likhachev</a>, and <a href="https://zstevenwu.com/">Steven Wu</a>.
+I am a first year PhD Student in the Computer Science Department at Cornell Tech, where I work with <a href="https://gargnikhil.com/">Nikhil Garg</a>, and am broadly interested in the intersections between machine learning and society. As an undergraduate student at CMU, I worked on projects in LLMs for tabular data, decision-focused learning, and Multi-Agent Pathfinding, advised by <a href="https://bryanwilder.github.io/">Bryan Wilder</a>, <a href="https://www.cs.cmu.edu/~maxim/">Maxim Likhachev</a>, and <a href="https://zstevenwu.com/">Steven Wu</a>.
 
 <h1>News</h1>
 
