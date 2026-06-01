@@ -11,6 +11,8 @@ I am a first year PhD Student in the Computer Science Department at Cornell Tech
 
 <h1>News</h1>
 
+April 29th, 2026: Awarded and accepted NSF GRFP Award!
+
 April 14th, 2025: Committed to Cornell Tech :)
 
 <!-- <ul>
