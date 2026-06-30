@@ -11,6 +11,8 @@ I am a second year PhD Student in the Computer Science Department at Cornell Tec
 
 <h1>News</h1>
 
+June 23rd, 2026: New preprint out on arXiv: <a href="https://arxiv.org/abs/2606.25152">Hitting a Moving Target: Test-Time Adaptation for AI Text Detection under Continual Distribution Shift</a>!
+
 April 29th, 2026: Awarded and accepted NSF GRFP Award!
 
 April 14th, 2025: Committed to Cornell Tech :)
