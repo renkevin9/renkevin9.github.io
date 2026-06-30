@@ -21,6 +21,7 @@
     @include clearfix;
     padding: 1em 1em 1em;
     font-family: $sans-serif-narrow;
+    position: relative;
 
     @include breakpoint($x-large) {
       max-width: $x-large;
@@ -37,6 +38,7 @@
 }
 
 .masthead__menu {
+  margin-right: 2.5rem;
 
   ul {
     margin: 0;
@@ -60,7 +62,7 @@
 .theme-toggle-btn {
   position: absolute;
   top: 50%;
-  right: 1em;
+  right: 0;
   transform: translateY(-50%);
   background: none;
   border: none;
