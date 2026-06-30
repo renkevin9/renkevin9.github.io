@@ -56,3 +56,24 @@
     font-weight: 700;
   }
 }
+
+.theme-toggle-item {
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.25rem 0.5rem;
+    color: $masthead-link-color;
+    line-height: 1;
+    vertical-align: middle;
+
+    &:hover {
+      color: $masthead-link-color-hover;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
