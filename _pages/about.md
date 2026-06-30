@@ -7,7 +7,7 @@ redirect_from:
   - /about.html
 ---
 
-I am a first year PhD Student in the Computer Science Department at Cornell Tech, where I work with <a href="https://gargnikhil.com/">Nikhil Garg</a>, and am broadly interested in the intersections between machine learning and society (some recent interests have included performativity in recommender systems, conversational LLMs, and multi-turn interactions in agentic systems). As an undergraduate student at CMU, I worked on projects in LLMs for tabular data, decision-focused learning, and Multi-Agent Pathfinding, advised by <a href="https://bryanwilder.github.io/">Bryan Wilder</a>, <a href="https://www.cs.cmu.edu/~maxim/">Maxim Likhachev</a>, and <a href="https://zstevenwu.com/">Steven Wu</a>.
+I am a second year PhD Student in the Computer Science Department at Cornell Tech, where I work with <a href="https://gargnikhil.com/">Nikhil Garg</a>, and am broadly interested in the intersections between machine learning and society (some recent interests have included <a href="https://arxiv.org/abs/2606.25152">test-time adaptation for AI text detection</a>, social choice and alignment in RLHF, and multi-turn interactions for AI agents). During my undergrad at CMU, I worked on projects in uncertainty calibration for LLMs, decision-focused learning, and multi-agent pathfinding, where I worked with <a href="https://bryanwilder.github.io/">Bryan Wilder</a>, <a href="https://www.cs.cmu.edu/~maxim/">Maxim Likhachev</a>, and <a href="https://zstevenwu.com/">Steven Wu</a>.
 
 <h1>News</h1>
 
@@ -30,11 +30,11 @@ Many of the features of dynamic content management systems (like Wordpress) can 
 Getting started
 ======
 1. Register a GitHub account if you don't have one and confirm your e-mail (required!)
-1. Fork [this template](https://github.com/academicpages/academicpages.github.io) by clicking the "Use this template" button in the top right. 
-1. Go to the repository's settings (rightmost item in the tabs that start with "Code", should be below "Unwatch"). Rename the repository "[your GitHub username].github.io", which will also be your website's URL.
-1. Set site-wide configuration and create content & metadata (see below -- also see [this set of diffs](http://archive.is/3TPas) showing what files were changed to set up [an example site](https://getorg-testacct.github.io) for a user with the username "getorg-testacct")
-1. Upload any files (like PDFs, .zip files, etc.) to the files/ directory. They will appear at https://[your GitHub username].github.io/files/example.pdf.  
-1. Check status by going to the repository settings, in the "GitHub pages" section
+2. Fork [this template](https://github.com/academicpages/academicpages.github.io) by clicking the "Use this template" button in the top right. 
+3. Go to the repository's settings (rightmost item in the tabs that start with "Code", should be below "Unwatch"). Rename the repository "[your GitHub username].github.io", which will also be your website's URL.
+4. Set site-wide configuration and create content & metadata (see below -- also see [this set of diffs](http://archive.is/3TPas) showing what files were changed to set up [an example site](https://getorg-testacct.github.io) for a user with the username "getorg-testacct")
+5. Upload any files (like PDFs, .zip files, etc.) to the files/ directory. They will appear at https://[your GitHub username].github.io/files/example.pdf.  
+6. Check status by going to the repository settings, in the "GitHub pages" section
 
 Site-wide configuration
 ------
