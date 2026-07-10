@@ -398,9 +398,39 @@
    Timeline list (News, Teaching)
    ========================================================================== */
 
+.timeline-scroll {
+  max-height: 22em;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 0.75em;
+  scrollbar-width: thin;
+  scrollbar-color: #c4c4c8 transparent;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: #c4c4c8;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #a8a8ad;
+  }
+}
+
 .timeline-list {
   margin: 1em 0 2em;
   border-top: 1px solid $border-color;
+}
+
+.timeline-scroll .timeline-list {
+  margin-bottom: 0;
 }
 
 .timeline-item {
@@ -467,8 +497,8 @@
   }
 
   &--project {
-    color: mix(#000, $success-color, 35%);
-    background: mix(#fff, $success-color, 85%);
+    color: #5a5a5f;
+    background: #e8e8ea;
   }
 
   &--cmu {

@@ -15,6 +15,7 @@ During my undergrad at CMU, I worked on projects in uncertainty calibration for 
 
 <h1>News</h1>
 
+<div class="timeline-scroll">
 <div class="timeline-list">
   <div class="timeline-item">
     <div class="timeline-item__date"><time datetime="2026-07-10">Jul 10, 2026</time></div>
@@ -44,6 +45,7 @@ During my undergrad at CMU, I worked on projects in uncertainty calibration for 
       Committed to Cornell Tech :)
     </div>
   </div>
+</div>
 </div>
 
 <!-- <ul>
