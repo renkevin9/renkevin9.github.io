@@ -7,15 +7,37 @@ redirect_from:
   - /about.html
 ---
 
-I am a second year PhD Student in the Computer Science Department at Cornell Tech, where I work with <a href="https://gargnikhil.com/">Nikhil Garg</a>, and am broadly interested in the intersections between machine learning and society (some recent interests have included <a href="https://arxiv.org/abs/2606.25152">test-time adaptation for AI text detection</a>, social choice and alignment in RLHF, and multi-turn interactions for AI agents). During my undergrad at CMU, I worked on projects in uncertainty calibration for LLMs, decision-focused learning, and multi-agent pathfinding, where I worked with <a href="https://bryanwilder.github.io/">Bryan Wilder</a>, <a href="https://www.cs.cmu.edu/~maxim/">Maxim Likhachev</a>, and <a href="https://zstevenwu.com/">Steven Wu</a>.
+<h1>Bio</h1>
+
+I am a second year PhD Student in the Computer Science Department at Cornell Tech, where I work with <a href="https://gargnikhil.com/">Nikhil Garg</a>, and am broadly interested in the intersections between machine learning and society (some recent interests have included <a href="https://arxiv.org/abs/2606.25152">test-time adaptation for AI text detection</a>, social choice and alignment in RLHF, and multi-turn interactions for AI agents).
+
+During my undergrad at CMU, I worked on projects in uncertainty calibration for LLMs, decision-focused learning, and multi-agent pathfinding, where I worked with <a href="https://bryanwilder.github.io/">Bryan Wilder</a>, <a href="https://www.cs.cmu.edu/~maxim/">Maxim Likhachev</a>, and <a href="https://zstevenwu.com/">Steven Wu</a>.
 
 <h1>News</h1>
 
-June 23rd, 2026: New preprint out on arXiv: <a href="https://arxiv.org/abs/2606.25152">Hitting a Moving Target: Test-Time Adaptation for AI Text Detection under Continual Distribution Shift</a>!
-
-April 29th, 2026: Awarded and accepted NSF GRFP Award!
-
-April 14th, 2025: Committed to Cornell Tech :)
+<div class="timeline-list">
+  <div class="timeline-item">
+    <div class="timeline-item__date"><time datetime="2026-06-23">Jun 23, 2026</time></div>
+    <div class="timeline-item__body">
+      <span class="timeline-item__tag timeline-item__tag--paper"><i class="fas fa-file-lines" aria-hidden="true"></i>Paper</span>
+      New preprint out on arXiv: <a href="https://arxiv.org/abs/2606.25152">Hitting a Moving Target: Test-Time Adaptation for AI Text Detection under Continual Distribution Shift</a>!
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-item__date"><time datetime="2026-04-29">Apr 29, 2026</time></div>
+    <div class="timeline-item__body">
+      <span class="timeline-item__tag timeline-item__tag--award"><i class="fas fa-award" aria-hidden="true"></i>Award</span>
+      Awarded and accepted the NSF GRFP Award!
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-item__date"><time datetime="2025-04-14">Apr 14, 2025</time></div>
+    <div class="timeline-item__body">
+      <span class="timeline-item__tag timeline-item__tag--milestone"><i class="fas fa-graduation-cap" aria-hidden="true"></i>Milestone</span>
+      Committed to Cornell Tech :)
+    </div>
+  </div>
+</div>
 
 <!-- <ul>
   <li></li>

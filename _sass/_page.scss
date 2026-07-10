@@ -394,6 +394,89 @@
   }
 }
 
+/*
+   Timeline list (News, Teaching)
+   ========================================================================== */
+
+.timeline-list {
+  margin: 1em 0 2em;
+  border-top: 1px solid $border-color;
+}
+
+.timeline-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4em;
+  padding: 0.9em 0;
+  border-bottom: 1px solid $border-color;
+
+  @include breakpoint($small) {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 1em;
+  }
+}
+
+.timeline-item__date {
+  flex: 0 0 7em;
+  font-family: $sans-serif;
+  font-size: $type-size-6;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: $accent-color;
+  white-space: nowrap;
+}
+
+.timeline-item__body {
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+.timeline-item__tag {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0.6em 0.2em 0;
+  padding: 0.15em 0.6em;
+  border-radius: 999px;
+  font-family: $sans-serif;
+  font-size: $type-size-7;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+
+  .fas {
+    margin-right: 0.4em;
+    font-size: 0.85em;
+  }
+
+  &--paper {
+    color: $accent-color;
+    background: mix(#fff, $accent-color, 88%);
+  }
+
+  &--award {
+    color: mix(#000, $warning-color, 15%);
+    background: mix(#fff, $warning-color, 85%);
+  }
+
+  &--milestone {
+    color: $info-color;
+    background: mix(#fff, $info-color, 88%);
+  }
+
+  &--cmu {
+    color: $info-color;
+    background: mix(#fff, $info-color, 88%);
+  }
+
+  &--cornell {
+    color: $accent-color;
+    background: mix(#fff, $accent-color, 88%);
+  }
+}
+
 .page__related-title {
   margin-bottom: 10px;
   font-size: $type-size-6;
