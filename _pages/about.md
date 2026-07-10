@@ -17,6 +17,13 @@ During my undergrad at CMU, I worked on projects in uncertainty calibration for 
 
 <div class="timeline-list">
   <div class="timeline-item">
+    <div class="timeline-item__date"><time datetime="2026-07-10">Jul 10, 2026</time></div>
+    <div class="timeline-item__body">
+      <span class="timeline-item__tag timeline-item__tag--project"><i class="fas fa-code" aria-hidden="true"></i>Project</span>
+      Spent some time vibe coding! Check out my paper browser: <a href="https://paper-browser.github.io/">https://paper-browser.github.io/</a>
+    </div>
+  </div>
+  <div class="timeline-item">
     <div class="timeline-item__date"><time datetime="2026-06-23">Jun 23, 2026</time></div>
     <div class="timeline-item__body">
       <span class="timeline-item__tag timeline-item__tag--paper"><i class="fas fa-file-lines" aria-hidden="true"></i>Paper</span>

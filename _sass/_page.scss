@@ -466,6 +466,11 @@
     background: mix(#fff, $info-color, 88%);
   }
 
+  &--project {
+    color: mix(#000, $success-color, 35%);
+    background: mix(#fff, $success-color, 85%);
+  }
+
   &--cmu {
     color: $info-color;
     background: mix(#fff, $info-color, 88%);
