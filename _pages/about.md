@@ -9,9 +9,9 @@ redirect_from:
 
 <h1>Bio</h1>
 
-I am a second year PhD Student in the Computer Science Department at Cornell Tech, where I work with <a href="https://gargnikhil.com/">Nikhil Garg</a>, and am broadly interested in the intersections between machine learning and society (some recent interests have included <a href="https://arxiv.org/abs/2606.25152">test-time adaptation for AI text detection</a>, social choice and alignment in RLHF, and multi-turn interactions for AI agents). I have been fortunate to be funded by an NSF Graduate Research Fellowship and Digital Life Initiative Fellowship.
+Hello! I am a second year PhD Student in the Computer Science Department at Cornell Tech, where I work with <a href="https://gargnikhil.com/">Nikhil Garg</a>, and am broadly interested in the intersections between machine learning and society (some recent interests have included <a href="https://arxiv.org/abs/2606.25152">test-time adaptation for AI text detection</a>, social choice and alignment in RLHF, and multi-turn interactions for AI agents). I have been fortunate to be funded by an NSF Graduate Research Fellowship and Digital Life Initiative Fellowship.
 
-During my undergrad at CMU, I worked on projects in uncertainty calibration for LLMs, decision-focused learning, and multi-agent pathfinding, where I worked with <a href="https://bryanwilder.github.io/">Bryan Wilder</a>, <a href="https://www.cs.cmu.edu/~maxim/">Maxim Likhachev</a>, and <a href="https://zstevenwu.com/">Steven Wu</a>.
+In 2025, I received a B.S. in Statistics and Machine Learning with a minor in Computer Science from Carnegie Mellon University. My undergraduate research spanned topics such as uncertainty calibration for LLMs, decision-focused learning, and multi-agent pathfinding, where I worked with <a href="https://bryanwilder.github.io/">Bryan Wilder</a>, <a href="https://www.cs.cmu.edu/~maxim/">Maxim Likhachev</a>, and <a href="https://zstevenwu.com/">Steven Wu</a>.
 
 <h1>News</h1>
 
