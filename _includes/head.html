@@ -16,9 +16,25 @@
 </script>
 <script>
   (function() {
-    var saved = localStorage.getItem('theme');
-    var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var saved = null;
+    var savedPalette = null;
+    var savedLightBackground = null;
+    var savedDarkBackground = null;
+
+    try {
+      saved = localStorage.getItem('theme');
+      savedPalette = localStorage.getItem('backgroundPalette');
+      savedLightBackground = localStorage.getItem('backgroundLight');
+      savedDarkBackground = localStorage.getItem('backgroundDark');
+    } catch (e) {}
+
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var theme = saved || (prefersDark ? 'dark' : 'light');
+    var background = theme === 'dark' ? savedDarkBackground : savedLightBackground;
+
     document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-background-palette', savedPalette || 'default');
+    document.documentElement.style.setProperty('--site-bg-color', background || (theme === 'dark' ? '#1c1c1e' : '#ffffff'));
   })();
 </script>
 

@@ -2,23 +2,127 @@
 
 <script>
   (function() {
+    var root = document.documentElement;
     var btn = document.getElementById('theme-toggle');
-    if (!btn) return;
     var icon = document.getElementById('theme-icon');
+    var paletteToggle = document.getElementById('background-palette-toggle');
+    var palette = document.getElementById('background-palette');
+    var paletteWrapper = document.querySelector('.color-palette');
+    var swatches = palette ? palette.querySelectorAll('.color-palette__swatch') : [];
+
+    if (!btn && !paletteToggle) return;
+
+    function getStored(key) {
+      try {
+        return localStorage.getItem(key);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function setStored(key, value) {
+      try {
+        localStorage.setItem(key, value);
+      } catch (e) {}
+    }
 
     function updateIcon(theme) {
       if (icon) icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
     }
 
-    updateIcon(document.documentElement.getAttribute('data-theme') || 'light');
+    function updateThemeColor(color) {
+      var metaThemeColor = document.querySelector('meta[name="theme-color"]');
+      if (metaThemeColor) metaThemeColor.setAttribute('content', color);
+    }
 
-    btn.addEventListener('click', function() {
-      var current = document.documentElement.getAttribute('data-theme') || 'light';
-      var next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-      updateIcon(next);
-    });
+    function getCurrentTheme() {
+      return root.getAttribute('data-theme') || 'light';
+    }
+
+    function getSwatch(paletteName) {
+      var selected = null;
+
+      Array.prototype.forEach.call(swatches, function(swatch) {
+        if (swatch.getAttribute('data-palette') === paletteName) selected = swatch;
+      });
+
+      return selected || (swatches.length ? swatches[0] : null);
+    }
+
+    function applyBackground(paletteName) {
+      var swatch = getSwatch(paletteName || 'default');
+      if (!swatch) return;
+
+      var theme = getCurrentTheme();
+      var lightBackground = swatch.getAttribute('data-bg-light') || '#ffffff';
+      var darkBackground = swatch.getAttribute('data-bg-dark') || '#1c1c1e';
+      var background = theme === 'dark' ? darkBackground : lightBackground;
+      var activePalette = swatch.getAttribute('data-palette') || 'default';
+
+      root.style.setProperty('--site-bg-color', background);
+      root.setAttribute('data-background-palette', activePalette);
+      updateThemeColor(background);
+      setStored('backgroundPalette', activePalette);
+      setStored('backgroundLight', lightBackground);
+      setStored('backgroundDark', darkBackground);
+
+      Array.prototype.forEach.call(swatches, function(item) {
+        var isActive = item === swatch;
+        item.classList.toggle('is-active', isActive);
+        item.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      });
+    }
+
+    function setPaletteOpen(isOpen) {
+      if (!palette || !paletteToggle) return;
+      palette.hidden = !isOpen;
+      paletteToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
+
+    updateIcon(getCurrentTheme());
+    applyBackground(getStored('backgroundPalette') || root.getAttribute('data-background-palette') || 'default');
+
+    if (btn) {
+      btn.addEventListener('click', function() {
+        var current = getCurrentTheme();
+        var activePalette = root.getAttribute('data-background-palette') || 'default';
+        var next = current === 'dark' ? 'light' : 'dark';
+
+        root.setAttribute('data-theme', next);
+        setStored('theme', next);
+        updateIcon(next);
+        applyBackground(activePalette);
+      });
+    }
+
+    if (paletteToggle && palette) {
+      paletteToggle.addEventListener('click', function(event) {
+        event.stopPropagation();
+        setPaletteOpen(palette.hidden);
+      });
+
+      Array.prototype.forEach.call(swatches, function(swatch) {
+        swatch.addEventListener('click', function(event) {
+          event.stopPropagation();
+          applyBackground(swatch.getAttribute('data-palette'));
+          setPaletteOpen(false);
+          paletteToggle.focus();
+        });
+      });
+
+      document.addEventListener('click', function(event) {
+        if (!palette.hidden && paletteWrapper && !paletteWrapper.contains(event.target)) {
+          setPaletteOpen(false);
+        }
+      });
+
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && !palette.hidden) {
+          setPaletteOpen(false);
+          paletteToggle.focus();
+        }
+      });
+    }
   })();
 </script>
 

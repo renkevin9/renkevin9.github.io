@@ -19,8 +19,25 @@
         <ul class="hidden-links hidden"></ul>
       </nav>
     </div>
-    <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark mode" title="Toggle dark mode">
-      <i id="theme-icon" class="fas fa-moon"></i>
-    </button>
+    <div class="masthead__controls">
+      <div class="color-palette">
+        <button id="background-palette-toggle" class="masthead-icon-btn color-palette__toggle" type="button" aria-label="Choose background color" aria-expanded="false" aria-controls="background-palette" title="Choose background color">
+          <i class="fas fa-palette" aria-hidden="true"></i>
+        </button>
+        <div id="background-palette" class="color-palette__panel" hidden>
+          <button class="color-palette__swatch" type="button" data-palette="default" data-bg-light="#ffffff" data-bg-dark="#1c1c1e" style="--swatch-light: #ffffff; --swatch-dark: #1c1c1e;" aria-label="Default background"></button>
+          <button class="color-palette__swatch" type="button" data-palette="warm" data-bg-light="#fff5ef" data-bg-dark="#241916" style="--swatch-light: #fff5ef; --swatch-dark: #241916;" aria-label="Warm background"></button>
+          <button class="color-palette__swatch" type="button" data-palette="rose" data-bg-light="#fff1f5" data-bg-dark="#25171d" style="--swatch-light: #fff1f5; --swatch-dark: #25171d;" aria-label="Rose background"></button>
+          <button class="color-palette__swatch" type="button" data-palette="gold" data-bg-light="#fff8dc" data-bg-dark="#211d12" style="--swatch-light: #fff8dc; --swatch-dark: #211d12;" aria-label="Gold background"></button>
+          <button class="color-palette__swatch" type="button" data-palette="mint" data-bg-light="#f0fbf4" data-bg-dark="#152019" style="--swatch-light: #f0fbf4; --swatch-dark: #152019;" aria-label="Mint background"></button>
+          <button class="color-palette__swatch" type="button" data-palette="sky" data-bg-light="#eef7ff" data-bg-dark="#121c24" style="--swatch-light: #eef7ff; --swatch-dark: #121c24;" aria-label="Sky background"></button>
+          <button class="color-palette__swatch" type="button" data-palette="lavender" data-bg-light="#f6f1ff" data-bg-dark="#1d1826" style="--swatch-light: #f6f1ff; --swatch-dark: #1d1826;" aria-label="Lavender background"></button>
+          <button class="color-palette__swatch" type="button" data-palette="stone" data-bg-light="#f4f1ec" data-bg-dark="#1f1d1a" style="--swatch-light: #f4f1ec; --swatch-dark: #1f1d1a;" aria-label="Stone background"></button>
+        </div>
+      </div>
+      <button id="theme-toggle" class="masthead-icon-btn theme-toggle-btn" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <i id="theme-icon" class="fas fa-moon" aria-hidden="true"></i>
+      </button>
+    </div>
   </div>
 </div>
