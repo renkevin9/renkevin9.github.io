@@ -1,4 +1,81 @@
 <style>
+:root { --site-bg-color: #ffffff; }
+html, body { background-color: var(--site-bg-color, #ffffff); }
+
+.masthead { overflow: visible; z-index: 1000; }
+.masthead__menu { margin-right: 5rem; }
+.masthead__controls {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  transform: translateY(-50%);
+  z-index: 1001;
+}
+.masthead__controls .masthead-icon-btn,
+.masthead__controls .theme-toggle-btn {
+  position: static;
+  top: auto;
+  right: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  padding: 0;
+  color: #b5502f;
+  background: transparent;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  transform: none;
+  z-index: auto;
+}
+.masthead__controls .masthead-icon-btn:hover,
+.masthead__controls .masthead-icon-btn[aria-expanded="true"],
+.masthead__controls .theme-toggle-btn:hover {
+  background: rgba(181, 80, 47, 0.08);
+  color: #883c23;
+}
+.masthead__controls .masthead-icon-btn:focus,
+.masthead__controls .theme-toggle-btn:focus { outline: none; }
+.masthead__controls .masthead-icon-btn:focus-visible,
+.masthead__controls .theme-toggle-btn:focus-visible { box-shadow: 0 0 0 2px rgba(181, 80, 47, 0.25); }
+.color-palette { position: relative; display: inline-flex; }
+.color-palette__panel {
+  position: absolute;
+  top: calc(100% + 0.55rem);
+  right: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1.55rem);
+  gap: 0.45rem;
+  padding: 0.55rem;
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.14);
+  z-index: 1002;
+}
+.color-palette__panel[hidden] { display: none; }
+.color-palette__swatch {
+  width: 1.55rem;
+  height: 1.55rem;
+  padding: 0;
+  background: linear-gradient(135deg, var(--swatch-light) 0 50%, var(--swatch-dark) 50% 100%);
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: 50%;
+  cursor: pointer;
+}
+.color-palette__swatch:hover,
+.color-palette__swatch.is-active { transform: scale(1.08); }
+.color-palette__swatch.is-active,
+.color-palette__swatch:focus-visible { box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(181, 80, 47, 0.55); }
+.color-palette__swatch:focus { outline: none; }
+
 html[data-theme="dark"] { background-color: var(--site-bg-color, #1c1c1e); }
 html[data-theme="dark"] body { background-color: var(--site-bg-color, #1c1c1e); color: #f2f2f7; }
 
