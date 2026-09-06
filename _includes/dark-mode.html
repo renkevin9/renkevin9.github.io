@@ -1,6 +1,6 @@
 <style>
 :root { --site-bg-color: #ffffff; }
-html, body { background-color: var(--site-bg-color, #ffffff); }
+html, body { background-color: var(--site-bg-color, #ffffff) !important; }
 
 .masthead { overflow: visible; z-index: 1000; }
 .masthead__menu { margin-right: 5rem; }
@@ -76,8 +76,8 @@ html, body { background-color: var(--site-bg-color, #ffffff); }
 .color-palette__swatch:focus-visible { box-shadow: 0 0 0 2px #fff, 0 0 0 4px rgba(181, 80, 47, 0.55); }
 .color-palette__swatch:focus { outline: none; }
 
-html[data-theme="dark"] { background-color: var(--site-bg-color, #1c1c1e); }
-html[data-theme="dark"] body { background-color: var(--site-bg-color, #1c1c1e); color: #f2f2f7; }
+html[data-theme="dark"] { background-color: var(--site-bg-color, #1c1c1e) !important; }
+html[data-theme="dark"] body { background-color: var(--site-bg-color, #1c1c1e) !important; color: #f2f2f7; }
 
 html[data-theme="dark"] a { color: #f0916a; }
 html[data-theme="dark"] a:visited { color: #d9a488; }

@@ -60,6 +60,8 @@
       var activePalette = swatch.getAttribute('data-palette') || 'default';
 
       root.style.setProperty('--site-bg-color', background);
+      root.style.setProperty('background-color', background, 'important');
+      if (document.body) document.body.style.setProperty('background-color', background, 'important');
       root.setAttribute('data-background-palette', activePalette);
       updateThemeColor(background);
       setStored('backgroundPalette', activePalette);

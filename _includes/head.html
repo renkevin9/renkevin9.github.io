@@ -35,6 +35,7 @@
     document.documentElement.setAttribute('data-theme', theme);
     document.documentElement.setAttribute('data-background-palette', savedPalette || 'default');
     document.documentElement.style.setProperty('--site-bg-color', background || (theme === 'dark' ? '#1c1c1e' : '#ffffff'));
+    document.documentElement.style.setProperty('background-color', background || (theme === 'dark' ? '#1c1c1e' : '#ffffff'), 'important');
   })();
 </script>
 
