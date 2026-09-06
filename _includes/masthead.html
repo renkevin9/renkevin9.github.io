@@ -25,14 +25,29 @@
           <i class="fas fa-palette" aria-hidden="true"></i>
         </button>
         <div id="background-palette" class="color-palette__panel" hidden>
-          <button class="color-palette__swatch" type="button" data-palette="default" data-bg-light="#ffffff" data-bg-dark="#1c1c1e" style="--swatch-light: #ffffff; --swatch-dark: #1c1c1e;" aria-label="Default background"></button>
-          <button class="color-palette__swatch" type="button" data-palette="warm" data-bg-light="#fff5ef" data-bg-dark="#241916" style="--swatch-light: #fff5ef; --swatch-dark: #241916;" aria-label="Warm background"></button>
-          <button class="color-palette__swatch" type="button" data-palette="rose" data-bg-light="#fff1f5" data-bg-dark="#25171d" style="--swatch-light: #fff1f5; --swatch-dark: #25171d;" aria-label="Rose background"></button>
-          <button class="color-palette__swatch" type="button" data-palette="gold" data-bg-light="#fff8dc" data-bg-dark="#211d12" style="--swatch-light: #fff8dc; --swatch-dark: #211d12;" aria-label="Gold background"></button>
-          <button class="color-palette__swatch" type="button" data-palette="mint" data-bg-light="#f0fbf4" data-bg-dark="#152019" style="--swatch-light: #f0fbf4; --swatch-dark: #152019;" aria-label="Mint background"></button>
-          <button class="color-palette__swatch" type="button" data-palette="sky" data-bg-light="#eef7ff" data-bg-dark="#121c24" style="--swatch-light: #eef7ff; --swatch-dark: #121c24;" aria-label="Sky background"></button>
-          <button class="color-palette__swatch" type="button" data-palette="lavender" data-bg-light="#f6f1ff" data-bg-dark="#1d1826" style="--swatch-light: #f6f1ff; --swatch-dark: #1d1826;" aria-label="Lavender background"></button>
-          <button class="color-palette__swatch" type="button" data-palette="stone" data-bg-light="#f4f1ec" data-bg-dark="#1f1d1a" style="--swatch-light: #f4f1ec; --swatch-dark: #1f1d1a;" aria-label="Stone background"></button>
+          <div class="color-palette__grid" role="list" aria-label="Background colors">
+            {% for swatch in site.data.background_palette %}
+              {% assign swatch_light = swatch.light | default: swatch.color %}
+              {% assign swatch_dark = swatch.dark | default: swatch.color %}
+              {% assign swatch_label = swatch.label | default: swatch.name | replace: '-', ' ' | capitalize %}
+              {% assign swatch_index = forloop.index0 %}
+              {% assign swatch_row = swatch_index | divided_by: 10 %}
+              {% assign swatch_column = swatch_index | modulo: 10 %}
+              <button class="color-palette__swatch" type="button" data-palette="{{ swatch.name }}" data-bg="{{ swatch.color }}" data-bg-light="{{ swatch_light }}" data-bg-dark="{{ swatch_dark }}" data-palette-row="{{ swatch_row }}" data-palette-column="{{ swatch_column }}" style="--swatch-color: {{ swatch.color }};" aria-label="{{ swatch_label }} background"></button>
+            {% endfor %}
+          </div>
+          <div class="color-palette__custom">
+            <div class="color-palette__custom-label">CUSTOM</div>
+            <div class="color-palette__custom-actions">
+              <button id="background-custom-color" class="color-palette__custom-btn" type="button" aria-label="Choose custom background color" title="Choose custom background color">
+                <i class="fas fa-circle-plus" aria-hidden="true"></i>
+              </button>
+              <button id="background-eyedropper" class="color-palette__custom-btn" type="button" aria-label="Pick background color from screen" title="Pick background color from screen">
+                <i class="fas fa-eye-dropper" aria-hidden="true"></i>
+              </button>
+              <input id="background-color-input" class="color-palette__input" type="color" value="#ffffff" aria-label="Custom background color">
+            </div>
+          </div>
         </div>
       </div>
       <button id="theme-toggle" class="masthead-icon-btn theme-toggle-btn" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">

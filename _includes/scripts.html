@@ -9,8 +9,11 @@
     var palette = document.getElementById('background-palette');
     var paletteWrapper = document.querySelector('.color-palette');
     var swatches = palette ? palette.querySelectorAll('.color-palette__swatch') : [];
+    var customColorButton = document.getElementById('background-custom-color');
+    var eyedropperButton = document.getElementById('background-eyedropper');
+    var colorInput = document.getElementById('background-color-input');
 
-    if (!btn && !paletteToggle) return;
+    if (!btn && !paletteToggle && !colorInput) return;
 
     function getStored(key) {
       try {
@@ -39,40 +42,148 @@
       return root.getAttribute('data-theme') || 'light';
     }
 
+    function setTheme(theme) {
+      root.setAttribute('data-theme', theme);
+      setStored('theme', theme);
+      updateIcon(theme);
+    }
+
     function getSwatch(paletteName) {
       var selected = null;
+      var fallback = null;
 
       Array.prototype.forEach.call(swatches, function(swatch) {
         if (swatch.getAttribute('data-palette') === paletteName) selected = swatch;
+        if (swatch.getAttribute('data-palette') === 'default') fallback = swatch;
       });
 
-      return selected || (swatches.length ? swatches[0] : null);
+      return selected || fallback || (swatches.length ? swatches[0] : null);
+    }
+
+    function isHexColor(color) {
+      return /^#[0-9a-f]{6}$/i.test(color || '');
+    }
+
+    function channelToLinear(channel) {
+      channel = channel / 255;
+      return channel <= 0.03928 ? channel / 12.92 : Math.pow((channel + 0.055) / 1.055, 2.4);
+    }
+
+    function getLuminance(color) {
+      var red = parseInt(color.slice(1, 3), 16);
+      var green = parseInt(color.slice(3, 5), 16);
+      var blue = parseInt(color.slice(5, 7), 16);
+      return 0.2126 * channelToLinear(red) + 0.7152 * channelToLinear(green) + 0.0722 * channelToLinear(blue);
+    }
+
+    function getBackgroundTone(color) {
+      if (!isHexColor(color)) return getCurrentTheme() === 'dark' ? 'dark' : 'light';
+
+      var luminance = getLuminance(color);
+      var darkTextContrast = (luminance + 0.05) / 0.05;
+      var lightTextContrast = 1.05 / (luminance + 0.05);
+
+      return lightTextContrast > darkTextContrast ? 'dark' : 'light';
+    }
+
+    function getSwatchColor(swatch) {
+      return swatch ? swatch.getAttribute('data-bg') || swatch.getAttribute('data-bg-light') || '#ffffff' : '#ffffff';
+    }
+
+    function getSwatchRow(swatch) {
+      return parseInt(swatch.getAttribute('data-palette-row'), 10);
+    }
+
+    function getSwatchColumn(swatch) {
+      return parseInt(swatch.getAttribute('data-palette-column'), 10);
+    }
+
+    function getBestSwatch(candidates, targetTheme) {
+      var targetRow = targetTheme === 'dark' ? 6 : 2;
+      var targetLuminance = targetTheme === 'dark' ? 0.08 : 0.82;
+      var best = null;
+      var bestScore = Infinity;
+
+      Array.prototype.forEach.call(candidates, function(swatch) {
+        var color = getSwatchColor(swatch);
+        if (!isHexColor(color)) return;
+
+        var row = getSwatchRow(swatch);
+        var rowScore = isNaN(row) ? 2 : Math.abs(row - targetRow);
+        var luminanceScore = Math.abs(getLuminance(color) - targetLuminance);
+        var score = rowScore + luminanceScore;
+
+        if (score < bestScore) {
+          best = swatch;
+          bestScore = score;
+        }
+      });
+
+      return best;
+    }
+
+    function getThemeSwatch(targetTheme) {
+      var targetTone = targetTheme === 'dark' ? 'dark' : 'light';
+      var activeSwatch = getSwatch(root.getAttribute('data-background-palette') || 'default');
+      var activeRow = activeSwatch ? getSwatchRow(activeSwatch) : NaN;
+      var activeColumn = activeSwatch ? getSwatchColumn(activeSwatch) : NaN;
+      var candidates = [];
+      var sameColumnCandidates = [];
+
+      Array.prototype.forEach.call(swatches, function(swatch) {
+        var color = getSwatchColor(swatch);
+        if (getBackgroundTone(color) !== targetTone) return;
+
+        candidates.push(swatch);
+
+        if (!isNaN(activeColumn) && activeRow > 0 && getSwatchColumn(swatch) === activeColumn) {
+          sameColumnCandidates.push(swatch);
+        }
+      });
+
+      return getBestSwatch(sameColumnCandidates, targetTheme) ||
+        getSwatch(targetTheme === 'dark' ? 'black' : 'default') ||
+        getBestSwatch(candidates, targetTheme);
+    }
+
+    function applyBackgroundColor(background, activePalette, lightBackground, darkBackground) {
+      var backgroundTone = getBackgroundTone(background);
+      var theme = backgroundTone === 'dark' ? 'dark' : 'light';
+
+      root.style.setProperty('--site-bg-color', background);
+      root.style.setProperty('background-color', background, 'important');
+      if (document.body) document.body.style.setProperty('background-color', background, 'important');
+      root.setAttribute('data-background-palette', activePalette);
+      root.setAttribute('data-background-tone', backgroundTone);
+      setTheme(theme);
+      updateThemeColor(background);
+      setStored('backgroundPalette', activePalette);
+      setStored('backgroundColor', background);
+      setStored('backgroundLight', lightBackground);
+      setStored('backgroundDark', darkBackground);
+
+      if (colorInput && isHexColor(background)) colorInput.value = background;
+
+      Array.prototype.forEach.call(swatches, function(item) {
+        var isActive = item.getAttribute('data-palette') === activePalette;
+        item.classList.toggle('is-active', isActive);
+        item.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      });
     }
 
     function applyBackground(paletteName) {
       var swatch = getSwatch(paletteName || 'default');
       if (!swatch) return;
 
-      var theme = getCurrentTheme();
-      var lightBackground = swatch.getAttribute('data-bg-light') || '#ffffff';
-      var darkBackground = swatch.getAttribute('data-bg-dark') || '#1c1c1e';
-      var background = theme === 'dark' ? darkBackground : lightBackground;
+      var background = getSwatchColor(swatch);
       var activePalette = swatch.getAttribute('data-palette') || 'default';
 
-      root.style.setProperty('--site-bg-color', background);
-      root.style.setProperty('background-color', background, 'important');
-      if (document.body) document.body.style.setProperty('background-color', background, 'important');
-      root.setAttribute('data-background-palette', activePalette);
-      updateThemeColor(background);
-      setStored('backgroundPalette', activePalette);
-      setStored('backgroundLight', lightBackground);
-      setStored('backgroundDark', darkBackground);
+      applyBackgroundColor(background, activePalette, background, background);
+    }
 
-      Array.prototype.forEach.call(swatches, function(item) {
-        var isActive = item === swatch;
-        item.classList.toggle('is-active', isActive);
-        item.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-      });
+    function applyCustomBackground(color) {
+      var background = isHexColor(color) ? color : '#ffffff';
+      applyBackgroundColor(background, 'custom', background, background);
     }
 
     function setPaletteOpen(isOpen) {
@@ -82,18 +193,23 @@
     }
 
     updateIcon(getCurrentTheme());
-    applyBackground(getStored('backgroundPalette') || root.getAttribute('data-background-palette') || 'default');
+    var storedPalette = getStored('backgroundPalette') || root.getAttribute('data-background-palette') || 'default';
+    if (storedPalette === 'custom') {
+      applyCustomBackground(getStored('backgroundLight') || getStored('backgroundDark') || '#ffffff');
+    } else {
+      applyBackground(storedPalette);
+    }
 
     if (btn) {
       btn.addEventListener('click', function() {
-        var current = getCurrentTheme();
-        var activePalette = root.getAttribute('data-background-palette') || 'default';
-        var next = current === 'dark' ? 'light' : 'dark';
+        var next = getCurrentTheme() === 'dark' ? 'light' : 'dark';
+        var swatch = getThemeSwatch(next);
 
-        root.setAttribute('data-theme', next);
-        setStored('theme', next);
-        updateIcon(next);
-        applyBackground(activePalette);
+        if (swatch) {
+          applyBackground(swatch.getAttribute('data-palette'));
+        } else {
+          applyCustomBackground(next === 'dark' ? '#000000' : '#ffffff');
+        }
       });
     }
 
@@ -111,6 +227,41 @@
           paletteToggle.focus();
         });
       });
+
+      if (customColorButton && colorInput) {
+        customColorButton.addEventListener('click', function(event) {
+          event.stopPropagation();
+          colorInput.click();
+        });
+      }
+
+      if (colorInput) {
+        colorInput.addEventListener('input', function(event) {
+          applyCustomBackground(event.target.value);
+        });
+
+        colorInput.addEventListener('change', function(event) {
+          applyCustomBackground(event.target.value);
+          setPaletteOpen(false);
+          if (paletteToggle) paletteToggle.focus();
+        });
+      }
+
+      if (eyedropperButton) {
+        eyedropperButton.addEventListener('click', function(event) {
+          event.stopPropagation();
+
+          if (window.EyeDropper) {
+            new EyeDropper().open().then(function(result) {
+              applyCustomBackground(result.sRGBHex);
+              setPaletteOpen(false);
+              if (paletteToggle) paletteToggle.focus();
+            }).catch(function() {});
+          } else if (colorInput) {
+            colorInput.click();
+          }
+        });
+      }
 
       document.addEventListener('click', function(event) {
         if (!palette.hidden && paletteWrapper && !paletteWrapper.contains(event.target)) {

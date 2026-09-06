@@ -18,24 +18,49 @@
   (function() {
     var saved = null;
     var savedPalette = null;
+    var savedBackground = null;
     var savedLightBackground = null;
     var savedDarkBackground = null;
 
     try {
       saved = localStorage.getItem('theme');
       savedPalette = localStorage.getItem('backgroundPalette');
+      savedBackground = localStorage.getItem('backgroundColor');
       savedLightBackground = localStorage.getItem('backgroundLight');
       savedDarkBackground = localStorage.getItem('backgroundDark');
     } catch (e) {}
 
     var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    var theme = saved || (prefersDark ? 'dark' : 'light');
-    var background = theme === 'dark' ? savedDarkBackground : savedLightBackground;
+    var requestedTheme = saved || (prefersDark ? 'dark' : 'light');
+    var background = savedBackground || (requestedTheme === 'dark' ? savedDarkBackground : savedLightBackground);
+    var resolvedBackground = background || (requestedTheme === 'dark' ? '#000000' : '#ffffff');
 
-    document.documentElement.setAttribute('data-theme', theme);
+    function channelToLinear(channel) {
+      channel = channel / 255;
+      return channel <= 0.03928 ? channel / 12.92 : Math.pow((channel + 0.055) / 1.055, 2.4);
+    }
+
+    function getBackgroundTone(color) {
+      if (!/^#[0-9a-f]{6}$/i.test(color || '')) return requestedTheme === 'dark' ? 'dark' : 'light';
+
+      var red = parseInt(color.slice(1, 3), 16);
+      var green = parseInt(color.slice(3, 5), 16);
+      var blue = parseInt(color.slice(5, 7), 16);
+      var luminance = 0.2126 * channelToLinear(red) + 0.7152 * channelToLinear(green) + 0.0722 * channelToLinear(blue);
+      var darkTextContrast = (luminance + 0.05) / 0.05;
+      var lightTextContrast = 1.05 / (luminance + 0.05);
+
+      return lightTextContrast > darkTextContrast ? 'dark' : 'light';
+    }
+
+    var backgroundTone = getBackgroundTone(resolvedBackground);
+    var resolvedTheme = backgroundTone === 'dark' ? 'dark' : 'light';
+
+    document.documentElement.setAttribute('data-theme', resolvedTheme);
     document.documentElement.setAttribute('data-background-palette', savedPalette || 'default');
-    document.documentElement.style.setProperty('--site-bg-color', background || (theme === 'dark' ? '#1c1c1e' : '#ffffff'));
-    document.documentElement.style.setProperty('background-color', background || (theme === 'dark' ? '#1c1c1e' : '#ffffff'), 'important');
+    document.documentElement.setAttribute('data-background-tone', backgroundTone);
+    document.documentElement.style.setProperty('--site-bg-color', resolvedBackground);
+    document.documentElement.style.setProperty('background-color', resolvedBackground, 'important');
   })();
 </script>
 
