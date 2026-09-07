@@ -50,6 +50,18 @@
 
 .page__content {
 
+  [id] {
+    scroll-margin-top: calc(#{$masthead-height} + 1rem);
+  }
+
+  > h1[id] {
+    margin-top: 2em;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
   h2 {
     padding-bottom: 0.5em;
     border-bottom: 1px solid $border-color;

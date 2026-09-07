@@ -7,7 +7,7 @@ redirect_from:
   - /about.html
 ---
 
-<h1>Bio</h1>
+<h1 id="about">Bio</h1>
 
 Hello! I am a second year PhD Student in the Computer Science Department at Cornell Tech, where I work with <a href="https://gargnikhil.com/">Nikhil Garg</a>, and am broadly interested in the intersections between machine learning and society (some recent interests have included <a href="https://arxiv.org/abs/2606.25152">test-time adaptation for AI text detection</a>, social choice and alignment in RLHF, and multi-turn interactions for AI agents). I have been fortunate to be funded by an NSF Graduate Research Fellowship and Digital Life Initiative Fellowship.
 
@@ -54,6 +54,18 @@ In 2025, I received a B.S. in Statistics and Machine Learning with a minor in Co
   </div>
 </div>
 </div>
+
+<h1 id="publications">Publications</h1>
+
+{% include publications-section.html %}
+
+<h1 id="teaching">Teaching</h1>
+
+{% include teaching-section.html %}
+
+<h1 id="cv">CV</h1>
+
+{% include cv-section.html %}
 
 <!-- <ul>
   <li></li>
