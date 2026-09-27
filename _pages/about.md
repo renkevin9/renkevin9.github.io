@@ -20,42 +20,42 @@ In 2025, I received a B.S. in Statistics and Machine Learning with a minor in Co
   <div class="timeline-item">
     <div class="timeline-item__date"><time datetime="2026-09-27">Sep 27, 2026</time></div>
     <div class="timeline-item__body">
-      <span class="timeline-item__tag timeline-item__tag--paper"><i class="fas fa-file-lines" aria-hidden="true"></i>Paper</span>
+      <span class="timeline-item__tag timeline-item__tag--paper">Paper</span>
       My paper <a href="https://arxiv.org/abs/2606.25152">Hitting a Moving Target: Test-Time Adaptation for AI Text Detection under Continual Distribution Shift</a> was accepted to NeurIPS 2026!
     </div>
   </div>
   <div class="timeline-item">
     <div class="timeline-item__date"><time datetime="2026-09-06">Sep 6, 2026</time></div>
     <div class="timeline-item__body">
-      <span class="timeline-item__tag timeline-item__tag--award"><i class="fas fa-award" aria-hidden="true"></i>Award</span>
+      <span class="timeline-item__tag timeline-item__tag--award">Award</span>
       Awarded and accepted Digital Life Initiative's <a href="https://dli.tech.cornell.edu/members/kevin-ren">Doctoral Student Fellowship</a>!
     </div>
   </div>
   <div class="timeline-item">
     <div class="timeline-item__date"><time datetime="2026-07-10">Jul 10, 2026</time></div>
     <div class="timeline-item__body">
-      <span class="timeline-item__tag timeline-item__tag--project"><i class="fas fa-code" aria-hidden="true"></i>Project</span>
+      <span class="timeline-item__tag timeline-item__tag--project">Project</span>
       Spent some time vibe coding! Check out my paper browser: <a href="https://paper-browser.github.io/">https://paper-browser.github.io/</a>
     </div>
   </div>
   <div class="timeline-item">
     <div class="timeline-item__date"><time datetime="2026-06-23">Jun 23, 2026</time></div>
     <div class="timeline-item__body">
-      <span class="timeline-item__tag timeline-item__tag--paper"><i class="fas fa-file-lines" aria-hidden="true"></i>Paper</span>
+      <span class="timeline-item__tag timeline-item__tag--paper">Paper</span>
       New preprint out on arXiv: <a href="https://arxiv.org/abs/2606.25152">Hitting a Moving Target: Test-Time Adaptation for AI Text Detection under Continual Distribution Shift</a>!
     </div>
   </div>
   <div class="timeline-item">
     <div class="timeline-item__date"><time datetime="2026-04-29">Apr 29, 2026</time></div>
     <div class="timeline-item__body">
-      <span class="timeline-item__tag timeline-item__tag--award"><i class="fas fa-award" aria-hidden="true"></i>Award</span>
+      <span class="timeline-item__tag timeline-item__tag--award">Award</span>
       Awarded and accepted the NSF GRFP Award!
     </div>
   </div>
   <div class="timeline-item">
     <div class="timeline-item__date"><time datetime="2025-04-14">Apr 14, 2025</time></div>
     <div class="timeline-item__body">
-      <span class="timeline-item__tag timeline-item__tag--milestone"><i class="fas fa-graduation-cap" aria-hidden="true"></i>Milestone</span>
+      <span class="timeline-item__tag timeline-item__tag--milestone">Milestone</span>
       Committed to Cornell Tech :)
     </div>
   </div>
