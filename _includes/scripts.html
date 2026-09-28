@@ -11,6 +11,7 @@
     var swatches = palette ? palette.querySelectorAll('.color-palette__swatch') : [];
     var customColorButton = document.getElementById('background-custom-color');
     var eyedropperButton = document.getElementById('background-eyedropper');
+    var luckyButton = document.getElementById('background-lucky');
     var colorInput = document.getElementById('background-color-input');
 
     if (!btn && !paletteToggle && !colorInput) return;
@@ -186,6 +187,11 @@
       applyBackgroundColor(background, 'custom', background, background);
     }
 
+    function getRandomHexColor() {
+      var hex = Math.floor(Math.random() * 0xffffff).toString(16);
+      return '#' + ('000000' + hex).slice(-6);
+    }
+
     function setPaletteOpen(isOpen) {
       if (!palette || !paletteToggle) return;
       palette.hidden = !isOpen;
@@ -260,6 +266,13 @@
           } else if (colorInput) {
             colorInput.click();
           }
+        });
+      }
+
+      if (luckyButton) {
+        luckyButton.addEventListener('click', function(event) {
+          event.stopPropagation();
+          applyCustomBackground(getRandomHexColor());
         });
       }
 
