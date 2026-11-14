@@ -9,8 +9,6 @@
   var close = document.getElementById('runner-close');
   var overlay = document.getElementById('runner-overlay');
   var start = document.getElementById('runner-start');
-  var message = document.getElementById('runner-message');
-  var detail = document.getElementById('runner-detail');
   var scoreEl = document.getElementById('runner-score');
   var coinsEl = document.getElementById('runner-coins');
   var status = document.getElementById('runner-status');
@@ -114,9 +112,8 @@
     objects.push({lane:free,z:1,type:'coin'});
   }
   function finish() {
-    state='over'; overlay.hidden=false; message.textContent='Nice run!';
-    detail.textContent='You scored '+Math.floor(distance/10)+' points and collected '+coins+' coins.';
-    start.textContent='Run again →'; status.textContent='Game over. '+detail.textContent;
+    state='over'; overlay.hidden=false; start.setAttribute('aria-label', 'Play again');
+    status.textContent='Game over. You scored '+Math.floor(distance/10)+' points and collected '+coins+' coins.';
   }
   function tick(time) {
     if (state !== 'playing') return;
@@ -146,7 +143,7 @@
     frame=requestAnimationFrame(tick);
   }
   function pause() {
-    if (state === 'playing') { state='paused'; cancelAnimationFrame(frame); message.textContent='Taking a breather?'; detail.textContent='Your run is paused.'; start.textContent='Keep running →'; overlay.hidden=false; status.textContent='Game paused.'; }
+    if (state === 'playing') { state='paused'; cancelAnimationFrame(frame); start.setAttribute('aria-label', 'Resume game'); overlay.hidden=false; status.textContent='Game paused.'; }
     else if (state === 'paused') { overlay.hidden=true; state='playing'; last=0; status.textContent='Game resumed.'; frame=requestAnimationFrame(tick); }
   }
   function action(a) {
