@@ -16,7 +16,7 @@
   var powerEl = document.getElementById('runner-power');
   var state = 'ready', lane = 1, playerX = 1, jump = 0, jumpSpeed = 0;
   var objects = [], distance = 0, coins = 0, spawn = 0, last = 0, frame = 0;
-  var slide = 0, jetpack = 0, shoes = 0, roof = 0, roofLane = -1;
+  var slide = 0, shoes = 0, shoeCooldown = 0, roof = null, jumpFromRoof = false;
 
   function rect(x, y, w, h, color) { ctx.fillStyle = color; ctx.fillRect(x, y, w, h); }
   function polygon(points, color) {
@@ -26,9 +26,9 @@
   }
   function circle(x, y, r, color) { ctx.fillStyle = color; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill(); }
   function project(l, z) {
-    var t = Math.max(0, Math.min(1, 1 - z));
+    var t = Math.max(0, Math.min(1.4, 1 - z));
     var scale = .12 + t * .88;
-    return { x: 180 + (l - 1) * 95 * scale, y: 141 + t * t * 313, s: scale };
+    return { x: 180 + (l - 1) * 95 * scale, y: 141 + Math.pow(t, 1.4) * 313, s: scale };
   }
   function rounded(x, y, w, h, r, color) {
     ctx.fillStyle = color; ctx.beginPath(); ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y);
@@ -67,16 +67,37 @@
     var p=project(o.lane,o.z), s=p.s, x=p.x, y=p.y;
     if (o.type === 'coin') {
       circle(x,y-42*s,14*s,'#f4aa27'); circle(x,y-42*s,10*s,'#ffdd62'); rect(x-2*s,y-49*s,4*s,14*s,'#f1a835');
-    } else if (o.type === 'jetpack' || o.type === 'shoes') {
-      circle(x,y-48*s,20*s,'#ffe178');
-      if (o.type === 'jetpack') { rounded(x-13*s,y-68*s,26*s,38*s,5*s,'#e75153'); rect(x-10*s,y-73*s,20*s,6*s,'#568b9b'); rect(x-8*s,y-58*s,16*s,13*s,'#f6d676'); polygon([[x-8*s,y-30*s],[x,y-14*s],[x+8*s,y-30*s]],'#ff9d37'); }
-      else { rounded(x-16*s,y-51*s,31*s,17*s,5*s,'#ee6c3e'); rect(x-15*s,y-38*s,32*s,5*s,'#fff4d5'); rect(x-9*s,y-56*s,12*s,7*s,'#ef9358'); }
+    } else if (o.type === 'shoes') {
+      // Two oversized sneakers, drawn as objects rather than a power-up badge.
+      ctx.save(); ctx.translate(x,y-29*s);
+      function sneaker(dx, dy) {
+        polygon([[dx-18*s,dy-13*s],[dx-7*s,dy-14*s],[dx-3*s,dy-8*s],[dx+13*s,dy-4*s],[dx+17*s,dy+2*s],[dx-19*s,dy+2*s]],'#ed6945');
+        rounded(dx-20*s,dy,39*s,7*s,3*s,'#fff1d8');
+        rect(dx-9*s,dy-13*s,9*s,5*s,'#f9b263');
+        rect(dx-5*s,dy-8*s,11*s,2*s,'#fff3dc'); rect(dx-7*s,dy-5*s,11*s,2*s,'#fff3dc');
+      }
+      sneaker(-7*s,-5*s); sneaker(7*s,5*s); ctx.restore();
     } else if (o.type === 'overhead') {
+      var overFar=project(o.lane,Math.min(1,o.z+.035));
+      polygon([[x-42*s,y-100*s],[overFar.x-42*overFar.s,overFar.y-100*overFar.s],[overFar.x+42*overFar.s,overFar.y-100*overFar.s],[x+42*s,y-100*s]],'#c8bca7');
+      polygon([[x+42*s,y-100*s],[overFar.x+42*overFar.s,overFar.y-100*overFar.s],[overFar.x+42*overFar.s,overFar.y-65*overFar.s],[x+42*s,y-65*s]],'#b84e49');
       rect(x-38*s,y-100*s,8*s,100*s,'#658089'); rect(x+30*s,y-100*s,8*s,100*s,'#658089');
       rounded(x-42*s,y-100*s,84*s,35*s,4*s,'#f4e9cf');
       for(var stripe=0;stripe<4;stripe++) polygon([[x+(-42+stripe*24)*s,y-100*s],[x+(-30+stripe*24)*s,y-100*s],[x+(-42+stripe*24)*s,y-65*s],[x+(-42+stripe*24)*s,y-78*s]],'#e75b50');
     } else if (o.type === 'train' || o.type === 'ramp' || o.type === 'tall') {
       var w=80*s,h=132*s;
+      // Draw the length of the car toward the vanishing point before its near end.
+      var far = project(o.lane, Math.min(1, o.z + .38));
+      var farW=80*far.s, farH=132*far.s;
+      var nearLeft=x-w/2, nearRight=x+w/2, farLeft=far.x-farW/2, farRight=far.x+farW/2;
+      polygon([[nearLeft,y-h],[farLeft,far.y-farH],[farLeft,far.y],[nearLeft,y]],'#b74743');
+      polygon([[nearRight,y-h],[farRight,far.y-farH],[farRight,far.y],[nearRight,y]],'#b74743');
+      polygon([[nearLeft,y-h],[farLeft,far.y-farH],[farRight,far.y-farH],[nearRight,y-h]],'#eecb79');
+      for (var seam=1;seam<4;seam++) {
+        var t=seam/4, leftX=nearLeft+(farLeft-nearLeft)*t, rightX=nearRight+(farRight-nearRight)*t;
+        var seamY=y-h+(far.y-farH-(y-h))*t;
+        polygon([[leftX,seamY],[rightX,seamY],[rightX,seamY+2*s],[leftX,seamY+2*s]],'#c9a865');
+      }
       rounded(x-w/2+5*s,y-h+5*s,w,h,12*s,'#37505d');
       rounded(x-w/2,y-h,w,h,12*s,'#f5d87c');
       rounded(x-w/2+4*s,y-h+5*s,w-8*s,h-10*s,9*s,'#e9504b');
@@ -91,6 +112,9 @@
       if (o.type === 'ramp') { polygon([[x-34*s,y-2*s],[x+34*s,y-2*s],[x+18*s,y-59*s],[x-18*s,y-59*s]],'#d6a45d'); for (var step=0;step<4;step++) rect(x-(31-step*3)*s,y-(10+step*12)*s,(62-step*6)*s,3*s,'#f8db9a'); }
       if (o.type === 'tall') { rect(x-28*s,y-h-8*s,56*s,9*s,'#578ba6'); rect(x-13*s,y-h-17*s,26*s,9*s,'#578ba6'); }
     } else {
+      var barrierFar=project(o.lane,Math.min(1,o.z+.04));
+      polygon([[x-36*s,y-45*s],[barrierFar.x-36*barrierFar.s,barrierFar.y-45*barrierFar.s],[barrierFar.x+36*barrierFar.s,barrierFar.y-45*barrierFar.s],[x+36*s,y-45*s]],'#d1c4ae');
+      polygon([[x+36*s,y-45*s],[barrierFar.x+36*barrierFar.s,barrierFar.y-45*barrierFar.s],[barrierFar.x+36*barrierFar.s,barrierFar.y-7*barrierFar.s],[x+36*s,y-7*s]],'#b94b43');
       rect(x-36*s,y-45*s,72*s,38*s,'#f3eee1');
       polygon([[x-36*s,y-45*s],[x-15*s,y-45*s],[x-36*s,y-24*s]],'#ed765b');
       polygon([[x-4*s,y-45*s],[x+17*s,y-45*s],[x-21*s,y-7*s],[x-36*s,y-7*s],[x-36*s,y-13*s]],'#ed765b');
@@ -99,13 +123,11 @@
     }
   }
   function player() {
-    var x=project(playerX,0).x, y=432-jump-(jetpack>0?110:roof>0?90:0);
+    var x=project(playerX,0).x, y=432-jump;
     ctx.fillStyle='rgba(25,42,50,.3)'; ctx.beginPath(); ctx.ellipse(x,450,29,8,0,0,Math.PI*2); ctx.fill();
     var stride=state==='playing'?Math.sin(distance*.1)*7:0;
-    if (roof>0 && !jetpack) { rounded(x-45,352,90,88,8,'#d6b65d'); rect(x-42,359,84,8,'#f6dc91'); }
-    if (jetpack>0) { polygon([[x-13,y-32],[x-6,y+18],[x,y-25],[x+6,y+18],[x+13,y-32]],'#ffb543'); }
     ctx.save(); ctx.translate(x,y);
-    if (slide>0 && !jetpack && !roof) { ctx.translate(0,-4); ctx.scale(1.25,.42); }
+    if (slide>0 && !roof) { ctx.translate(0,-4); ctx.scale(1.25,.42); }
     // A cap, hoodie, backpack and sneakers give the runner a bright silhouette.
     polygon([[-14,-31],[-1,-31],[-4,1+stride],[-18,3+stride]],'#315f92');
     polygon([[2,-31],[15,-31],[19,3-stride],[5,1-stride]],'#3d78ae');
@@ -128,11 +150,21 @@
     objects.push({lane:blocked,z:1,type:types[Math.floor(Math.random()*types.length)]});
     var free = (blocked + 1 + Math.floor(Math.random()*2)) % 3;
     var roll = Math.random();
-    objects.push({lane:free,z:1,type:roll < .09 ? 'jetpack' : roll < .19 ? 'shoes' : 'coin'});
+    var spawnShoes = roll < .03 && shoes <= 0 && shoeCooldown <= 0;
+    if (spawnShoes) shoeCooldown=15;
+    objects.push({lane:free,z:1,type:spawnShoes ? 'shoes' : 'coin'});
   }
   function finish() {
     state='over'; overlay.hidden=false; gameOver.hidden=false; start.setAttribute('aria-label', 'Play again');
     status.textContent='Game over. You scored '+Math.floor(distance/10)+' points and collected '+coins+' coins.';
+  }
+  function isCar(object) { return object.type === 'train' || object.type === 'ramp' || object.type === 'tall'; }
+  function underRunner(object) {
+    return isCar(object) && object.lane === lane && Math.abs(playerX-lane) < .4 && object.z <= .12 && object.z > -.38;
+  }
+  function landOn(car) {
+    roof=car; jump=90; jumpSpeed=0; jumpFromRoof=false; slide=0;
+    status.textContent='On the train roof.';
   }
   function tick(time) {
     if (state !== 'playing') return;
@@ -140,33 +172,60 @@
     var speed = Math.min(.30, .19+distance/150000);
     distance += dt*100; spawn -= dt;
     if (spawn <= 0) { addRow(); spawn = Math.max(.9, 1.4 * .19 / speed); }
-    slide = Math.max(0, slide-dt); jetpack = Math.max(0, jetpack-dt); shoes = Math.max(0, shoes-dt); roof = Math.max(0, roof-dt);
-    if (roof && lane !== roofLane) roof = 0;
-    powerEl.hidden = !jetpack && !shoes;
-    powerEl.textContent = jetpack > 0 ? "🚀 " + Math.ceil(jetpack) : shoes > 0 ? "👟 " + Math.ceil(shoes) : "";
+    slide = Math.max(0, slide-dt); shoes = Math.max(0, shoes-dt); shoeCooldown = Math.max(0, shoeCooldown-dt);
+    powerEl.hidden = !shoes;
+    powerEl.textContent = shoes > 0 ? "👟 " + Math.ceil(shoes) : "";
     playerX += (lane-playerX)*Math.min(1,dt*12);
-    if (jump > 0 || jumpSpeed > 0) { jump += jumpSpeed*dt; jumpSpeed -= 780*dt; if (jump<0) {jump=0;jumpSpeed=0;} }
+    objects.forEach(function(o) { o.z -= speed*dt; });
+
+    // Roofs are physical surfaces: jumping keeps the takeoff height, and
+    // landing is possible only while a car is underneath the runner.
+    if (roof && !underRunner(roof)) { roof=null; jumpSpeed=0; jumpFromRoof=true; }
+    if (!roof && (jump > 0 || jumpSpeed > 0)) {
+      var oldHeight=jump;
+      jump += jumpSpeed*dt; jumpSpeed -= 780*dt;
+      if (jumpSpeed < 0 && oldHeight >= 90 && jump <= 90) {
+        var landing=objects.find(function(o) {
+          return underRunner(o) && (o.type !== 'tall' || shoes > 0 || jumpFromRoof);
+        });
+        if (landing) landOn(landing);
+      }
+      if (!roof && jump <= 0 && jumpSpeed <= 0) { jump=0; jumpSpeed=0; jumpFromRoof=false; }
+    }
+    // Prefer a ramp surface when cars overlap so its body cannot cause a false collision.
+    if (!roof && jump < 90) {
+      var ramp=objects.find(function(o) { return o.type === 'ramp' && underRunner(o); });
+      if (ramp) landOn(ramp);
+    }
     objects.forEach(function(o) {
-      o.z -= speed*dt;
+      if (state !== 'playing') return;
+      if (isCar(o)) {
+        if (!underRunner(o) || roof === o) return;
+        if (jump >= 90) {
+          // A tall car cannot be reached from the ground without sneakers.
+          if (o.type === 'tall' && !jumpFromRoof && !shoes && !roof) finish();
+          return;
+        }
+        // The ramp is a traversable slope, including while jumping or entering from the side.
+        if (o.type === 'ramp') landOn(o);
+        else finish();
+        return;
+      }
       if (!o.checked && o.z < .12) {
         o.checked=true;
-        if (o.lane === lane) {
-          if (o.type === 'coin') coins++;
-          else if (o.type === 'jetpack') { jetpack=7; roof=0; status.textContent='Jetpack activated.'; }
-          else if (o.type === 'shoes') { shoes=12; status.textContent='Super sneakers activated.'; }
-          else if (jetpack > 0 || roof > 0) { /* Above the track. */ }
-          else if (o.type === 'ramp') { roof=2; roofLane=lane; jump=0; jumpSpeed=0; status.textContent='On the train roof.'; }
-          else if (o.type === 'tall' && shoes > 0 && jump >= 100) { roof=2; roofLane=lane; jump=0; jumpSpeed=0; status.textContent='On the train roof.'; }
-          else if (o.type === 'overhead' ? slide <= 0 : o.type === 'barrier' ? jump < 45 : true) finish();
-        }
+        if (o.lane !== lane) return;
+        if (o.type === 'coin') { if (jump < 25) coins++; }
+        else if (o.type === 'shoes') { if (jump < 25) { shoes=12; status.textContent='Super sneakers activated.'; } }
+        else if (jump >= 90) return;
+        else if (o.type === 'overhead' ? slide <= 0 : jump < 45) finish();
       }
     });
-    objects=objects.filter(function(o){return o.z>-.05;});
+    objects=objects.filter(function(o){return o.z > (isCar(o) ? -.38 : -.05);});
     scoreEl.textContent=Math.floor(distance/10); coinsEl.textContent=coins;
     draw(); if (state === 'playing') frame=requestAnimationFrame(tick);
   }
   function begin() {
-    lane=1; playerX=1; jump=0; jumpSpeed=0; slide=0; jetpack=0; shoes=0; roof=0; roofLane=-1; objects=[]; distance=0; coins=0; spawn=1; last=0;
+    lane=1; playerX=1; jump=0; jumpSpeed=0; slide=0; shoes=0; shoeCooldown=0; roof=null; jumpFromRoof=false; objects=[]; distance=0; coins=0; spawn=1; last=0;
     gameOver.hidden=true; powerEl.hidden=true;
     scoreEl.textContent='0'; coinsEl.textContent='0'; overlay.hidden=true; state='playing'; status.textContent='Game started.';
     frame=requestAnimationFrame(tick);
@@ -180,8 +239,8 @@
     if (state!=='playing') return;
     if (a==='left') lane=Math.max(0,lane-1);
     if (a==='right') lane=Math.min(2,lane+1);
-    if (a==='jump' && jump===0 && !jetpack) { slide=0; jumpSpeed=shoes>0 ? 620 : 420; }
-    if (a==='slide' && jump===0 && !jetpack && !roof) slide=.8;
+    if (a==='jump' && (roof || (jump===0 && jumpSpeed===0))) { jumpFromRoof=!!roof; roof=null; slide=0; jumpSpeed=shoes>0 ? 620 : 420; }
+    if (a==='slide' && jump===0 && !roof) slide=.8;
   }
   function setOpen(open) {
     if (!open && state === 'playing') pause();
