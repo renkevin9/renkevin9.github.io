@@ -8,7 +8,10 @@
     </div>
   </div>
   <div class="runner__controls" aria-label="Game controls"><button type="button" data-runner-action="left" aria-label="Move left">←</button><button type="button" data-runner-action="jump" aria-label="Jump">↑ <span>JUMP</span></button><button type="button" data-runner-action="right" aria-label="Move right">→</button><button type="button" data-runner-action="pause" aria-label="Pause game">Ⅱ</button></div>
-  <p class="runner__hint">Use ← → to switch lanes and ↑ or space to jump. Resize with − / + or drag the bottom corner.</p>
+  <p class="runner__hint">Use ← → to switch lanes and ↑ or space to jump. Drag the left or bottom edge to resize.</p>
+  <div class="runner__resize runner__resize--left" role="separator" tabindex="0" aria-label="Resize game width" aria-orientation="vertical" title="Drag to resize width"></div>
+  <div class="runner__resize runner__resize--bottom" role="separator" tabindex="0" aria-label="Resize game height" aria-orientation="horizontal" title="Drag to resize height"></div>
+  <div class="runner__resize runner__resize--corner" aria-hidden="true" title="Drag to resize window"></div>
   <p class="runner__status" id="runner-status" role="status" aria-live="polite"></p>
 </aside>
 <link rel="stylesheet" href="{{ '/assets/css/subway-game.css' | relative_url }}">
