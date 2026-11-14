@@ -12,8 +12,11 @@
   var scoreEl = document.getElementById('runner-score');
   var coinsEl = document.getElementById('runner-coins');
   var status = document.getElementById('runner-status');
+  var gameOver = document.getElementById('runner-game-over');
+  var powerEl = document.getElementById('runner-power');
   var state = 'ready', lane = 1, playerX = 1, jump = 0, jumpSpeed = 0;
   var objects = [], distance = 0, coins = 0, spawn = 0, last = 0, frame = 0;
+  var slide = 0, jetpack = 0, shoes = 0, roof = 0, roofLane = -1;
 
   function rect(x, y, w, h, color) { ctx.fillStyle = color; ctx.fillRect(x, y, w, h); }
   function polygon(points, color) {
@@ -64,7 +67,15 @@
     var p=project(o.lane,o.z), s=p.s, x=p.x, y=p.y;
     if (o.type === 'coin') {
       circle(x,y-42*s,14*s,'#f4aa27'); circle(x,y-42*s,10*s,'#ffdd62'); rect(x-2*s,y-49*s,4*s,14*s,'#f1a835');
-    } else if (o.type === 'train') {
+    } else if (o.type === 'jetpack' || o.type === 'shoes') {
+      circle(x,y-48*s,20*s,'#ffe178');
+      if (o.type === 'jetpack') { rounded(x-13*s,y-68*s,26*s,38*s,5*s,'#e75153'); rect(x-10*s,y-73*s,20*s,6*s,'#568b9b'); rect(x-8*s,y-58*s,16*s,13*s,'#f6d676'); polygon([[x-8*s,y-30*s],[x,y-14*s],[x+8*s,y-30*s]],'#ff9d37'); }
+      else { rounded(x-16*s,y-51*s,31*s,17*s,5*s,'#ee6c3e'); rect(x-15*s,y-38*s,32*s,5*s,'#fff4d5'); rect(x-9*s,y-56*s,12*s,7*s,'#ef9358'); }
+    } else if (o.type === 'overhead') {
+      rect(x-38*s,y-100*s,8*s,100*s,'#658089'); rect(x+30*s,y-100*s,8*s,100*s,'#658089');
+      rounded(x-42*s,y-100*s,84*s,35*s,4*s,'#f4e9cf');
+      for(var stripe=0;stripe<4;stripe++) polygon([[x+(-42+stripe*24)*s,y-100*s],[x+(-30+stripe*24)*s,y-100*s],[x+(-42+stripe*24)*s,y-65*s],[x+(-42+stripe*24)*s,y-78*s]],'#e75b50');
+    } else if (o.type === 'train' || o.type === 'ramp' || o.type === 'tall') {
       var w=80*s,h=132*s;
       rounded(x-w/2+5*s,y-h+5*s,w,h,12*s,'#37505d');
       rounded(x-w/2,y-h,w,h,12*s,'#f5d87c');
@@ -77,6 +88,8 @@
       rect(x-w/2+8*s,y-29*s,w-16*s,5*s,'#d65049');
       circle(x-w/2+15*s,y-13*s,6*s,'#fdf1b0'); circle(x+w/2-15*s,y-13*s,6*s,'#fdf1b0');
       rect(x-17*s,y-8*s,34*s,7*s,'#374850');
+      if (o.type === 'ramp') { polygon([[x-34*s,y-2*s],[x+34*s,y-2*s],[x+18*s,y-59*s],[x-18*s,y-59*s]],'#d6a45d'); for (var step=0;step<4;step++) rect(x-(31-step*3)*s,y-(10+step*12)*s,(62-step*6)*s,3*s,'#f8db9a'); }
+      if (o.type === 'tall') { rect(x-28*s,y-h-8*s,56*s,9*s,'#578ba6'); rect(x-13*s,y-h-17*s,26*s,9*s,'#578ba6'); }
     } else {
       rect(x-36*s,y-45*s,72*s,38*s,'#f3eee1');
       polygon([[x-36*s,y-45*s],[x-15*s,y-45*s],[x-36*s,y-24*s]],'#ed765b');
@@ -86,15 +99,19 @@
     }
   }
   function player() {
-    var x=project(playerX,0).x, y=432-jump;
+    var x=project(playerX,0).x, y=432-jump-(jetpack>0?110:roof>0?90:0);
     ctx.fillStyle='rgba(25,42,50,.3)'; ctx.beginPath(); ctx.ellipse(x,450,29,8,0,0,Math.PI*2); ctx.fill();
     var stride=state==='playing'?Math.sin(distance*.1)*7:0;
+    if (roof>0 && !jetpack) { rounded(x-45,352,90,88,8,'#d6b65d'); rect(x-42,359,84,8,'#f6dc91'); }
+    if (jetpack>0) { polygon([[x-13,y-32],[x-6,y+18],[x,y-25],[x+6,y+18],[x+13,y-32]],'#ffb543'); }
     ctx.save(); ctx.translate(x,y);
+    if (slide>0 && !jetpack && !roof) { ctx.translate(0,-4); ctx.scale(1.25,.42); }
     // A cap, hoodie, backpack and sneakers give the runner a bright silhouette.
     polygon([[-14,-31],[-1,-31],[-4,1+stride],[-18,3+stride]],'#315f92');
     polygon([[2,-31],[15,-31],[19,3-stride],[5,1-stride]],'#3d78ae');
     rounded(-20,1+stride,19,8,3,'#f9f4e2'); rounded(4,1-stride,19,8,3,'#f9f4e2');
     rect(-19,5+stride,17,3,'#e84e46'); rect(5,5-stride,17,3,'#e84e46');
+    if (shoes>0) { rounded(-24,-3+stride,23,12,4,'#ff9f3d'); rounded(4,-3-stride,23,12,4,'#ff9f3d'); }
     polygon([[-18,-69],[-29,-49],[-25,-38],[-12,-54]],'#f3b28b');
     polygon([[18,-69],[29,-49],[25,-38],[12,-54]],'#f3b28b');
     rounded(-21,-72,42,43,10,'#f6f3db'); rect(-21,-58,42,7,'#e65a4c');
@@ -107,12 +124,14 @@
   function draw() { background(); objects.slice().sort(function(a,b){return b.z-a.z;}).forEach(drawObject); player(); }
   function addRow() {
     var blocked = Math.floor(Math.random()*3);
-    objects.push({lane:blocked,z:1,type:Math.random()<.55?'train':'barrier'});
+    var types = ['train','barrier','overhead','ramp','tall'];
+    objects.push({lane:blocked,z:1,type:types[Math.floor(Math.random()*types.length)]});
     var free = (blocked + 1 + Math.floor(Math.random()*2)) % 3;
-    objects.push({lane:free,z:1,type:'coin'});
+    var roll = Math.random();
+    objects.push({lane:free,z:1,type:roll < .09 ? 'jetpack' : roll < .19 ? 'shoes' : 'coin'});
   }
   function finish() {
-    state='over'; overlay.hidden=false; start.setAttribute('aria-label', 'Play again');
+    state='over'; overlay.hidden=false; gameOver.hidden=false; start.setAttribute('aria-label', 'Play again');
     status.textContent='Game over. You scored '+Math.floor(distance/10)+' points and collected '+coins+' coins.';
   }
   function tick(time) {
@@ -120,7 +139,11 @@
     var dt = Math.min((time-last)/1000 || 0, .04); last=time;
     var speed = Math.min(.30, .19+distance/150000);
     distance += dt*100; spawn -= dt;
-    if (spawn <= 0) { addRow(); spawn = 1.4; }
+    if (spawn <= 0) { addRow(); spawn = Math.max(.9, 1.4 * .19 / speed); }
+    slide = Math.max(0, slide-dt); jetpack = Math.max(0, jetpack-dt); shoes = Math.max(0, shoes-dt); roof = Math.max(0, roof-dt);
+    if (roof && lane !== roofLane) roof = 0;
+    powerEl.hidden = !jetpack && !shoes;
+    powerEl.textContent = jetpack > 0 ? "🚀 " + Math.ceil(jetpack) : shoes > 0 ? "👟 " + Math.ceil(shoes) : "";
     playerX += (lane-playerX)*Math.min(1,dt*12);
     if (jump > 0 || jumpSpeed > 0) { jump += jumpSpeed*dt; jumpSpeed -= 780*dt; if (jump<0) {jump=0;jumpSpeed=0;} }
     objects.forEach(function(o) {
@@ -129,7 +152,12 @@
         o.checked=true;
         if (o.lane === lane) {
           if (o.type === 'coin') coins++;
-          else if (o.type === 'train' || jump < 45) finish();
+          else if (o.type === 'jetpack') { jetpack=7; roof=0; status.textContent='Jetpack activated.'; }
+          else if (o.type === 'shoes') { shoes=12; status.textContent='Super sneakers activated.'; }
+          else if (jetpack > 0 || roof > 0) { /* Above the track. */ }
+          else if (o.type === 'ramp') { roof=2; roofLane=lane; jump=0; jumpSpeed=0; status.textContent='On the train roof.'; }
+          else if (o.type === 'tall' && shoes > 0 && jump >= 100) { roof=2; roofLane=lane; jump=0; jumpSpeed=0; status.textContent='On the train roof.'; }
+          else if (o.type === 'overhead' ? slide <= 0 : o.type === 'barrier' ? jump < 45 : true) finish();
         }
       }
     });
@@ -138,7 +166,8 @@
     draw(); if (state === 'playing') frame=requestAnimationFrame(tick);
   }
   function begin() {
-    lane=1; playerX=1; jump=0; jumpSpeed=0; objects=[]; distance=0; coins=0; spawn=1; last=0;
+    lane=1; playerX=1; jump=0; jumpSpeed=0; slide=0; jetpack=0; shoes=0; roof=0; roofLane=-1; objects=[]; distance=0; coins=0; spawn=1; last=0;
+    gameOver.hidden=true; powerEl.hidden=true;
     scoreEl.textContent='0'; coinsEl.textContent='0'; overlay.hidden=true; state='playing'; status.textContent='Game started.';
     frame=requestAnimationFrame(tick);
   }
@@ -151,7 +180,8 @@
     if (state!=='playing') return;
     if (a==='left') lane=Math.max(0,lane-1);
     if (a==='right') lane=Math.min(2,lane+1);
-    if (a==='jump' && jump===0) jumpSpeed=420;
+    if (a==='jump' && jump===0 && !jetpack) { slide=0; jumpSpeed=shoes>0 ? 620 : 420; }
+    if (a==='slide' && jump===0 && !jetpack && !roof) slide=.8;
   }
   function setOpen(open) {
     if (!open && state === 'playing') pause();
@@ -211,7 +241,7 @@
   document.querySelectorAll('[data-runner-action]').forEach(function(button){button.addEventListener('click',function(){action(button.getAttribute('data-runner-action'));});});
   document.addEventListener('keydown',function(e){
     if (state!=='playing') return;
-    var keys={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'jump',' ':'jump',Escape:'pause'};
+    var keys={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'jump',ArrowDown:'slide',' ':'jump',Escape:'pause'};
     if (keys[e.key] && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName) && !e.target.isContentEditable) { e.preventDefault(); if(!e.repeat) action(keys[e.key]); }
   });
   document.addEventListener('visibilitychange',function(){if(document.hidden && state==='playing') pause();});

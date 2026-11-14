@@ -2,12 +2,13 @@
   <div class="runner__heading"><h2 id="runner-title">Subway dash</h2><div class="runner__window-controls"><button type="button" data-runner-width="-1" aria-label="Make game narrower" title="Make narrower">−</button><button type="button" data-runner-width="1" aria-label="Make game wider" title="Make wider">+</button><button type="button" id="runner-close" aria-label="Close game" title="Close">×</button></div></div>
   <div class="runner__screen">
     <canvas id="runner-canvas" width="360" height="480" aria-label="A three-lane endless runner game"></canvas>
-    <div class="runner__hud" aria-hidden="true"><span>★ <b id="runner-score">0</b></span><span>● <b id="runner-coins">0</b></span></div>
+    <div class="runner__hud" aria-hidden="true"><span>★ <b id="runner-score">0</b></span><span id="runner-power" hidden></span><span>● <b id="runner-coins">0</b></span></div>
     <div class="runner__overlay" id="runner-overlay">
+      <strong id="runner-game-over" class="runner__game-over" hidden>GAME OVER</strong>
       <button type="button" id="runner-start" aria-label="Play game"><span aria-hidden="true">▶</span></button>
     </div>
   </div>
-  <div class="runner__controls" aria-label="Game controls"><button type="button" data-runner-action="left" aria-label="Move left">←</button><button type="button" data-runner-action="jump" aria-label="Jump">↑</button><button type="button" data-runner-action="right" aria-label="Move right">→</button><button type="button" data-runner-action="pause" aria-label="Pause game">Ⅱ</button></div>
+  <div class="runner__controls" aria-label="Game controls"><button type="button" data-runner-action="left" aria-label="Move left">←</button><button type="button" data-runner-action="jump" aria-label="Jump">↑</button><button type="button" data-runner-action="slide" aria-label="Slide">↓</button><button type="button" data-runner-action="right" aria-label="Move right">→</button><button type="button" data-runner-action="pause" aria-label="Pause game">Ⅱ</button></div>
   <div class="runner__resize runner__resize--left" role="separator" tabindex="0" aria-label="Resize game width" aria-orientation="vertical" title="Drag to resize width"></div>
   <div class="runner__resize runner__resize--bottom" role="separator" tabindex="0" aria-label="Resize game height" aria-orientation="horizontal" title="Drag to resize height"></div>
   <div class="runner__resize runner__resize--corner" aria-hidden="true" title="Drag to resize window"></div>
