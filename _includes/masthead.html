@@ -22,6 +22,7 @@
       </nav>
     </div>
     <div class="masthead__controls">
+      {% if page.url == "/" %}<button id="runner-toggle" class="masthead-icon-btn runner-toggle" type="button" aria-label="Open Subway dash" aria-expanded="false" aria-controls="runner-window" title="Play Subway dash"><i class="fas fa-gamepad" aria-hidden="true"></i></button>{% endif %}
       <div class="color-palette">
         <button id="background-palette-toggle" class="masthead-icon-btn color-palette__toggle" type="button" aria-label="Choose background color" aria-expanded="false" aria-controls="background-palette" title="Choose background color">
           <i class="fas fa-palette" aria-hidden="true"></i>
