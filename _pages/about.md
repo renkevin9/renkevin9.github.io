@@ -18,6 +18,13 @@ In 2025, I received a B.S. in Statistics and Machine Learning with a minor in Co
 <div class="timeline-scroll">
 <div class="timeline-list">
   <div class="timeline-item">
+    <div class="timeline-item__date"><time datetime="2026-11-18">Nov 18, 2026</time></div>
+    <div class="timeline-item__body">
+      <span class="timeline-item__tag timeline-item__tag--paper">Paper</span>
+      Our AI detection paper was covered by <a href="https://news.mit.edu/2026/helping-ai-text-detectors-keep-up-with-changing-conditions-1118">MIT news</a>!
+    </div>
+  </div>
+  <div class="timeline-item">
     <div class="timeline-item__date"><time datetime="2026-09-27">Sep 27, 2026</time></div>
     <div class="timeline-item__body">
       <span class="timeline-item__tag timeline-item__tag--paper">Paper</span>
